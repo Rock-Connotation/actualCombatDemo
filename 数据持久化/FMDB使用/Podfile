@@ -1,0 +1,19 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'FMDB使用' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+	pod 'FMDB'
+  # Pods for FMDB使用
+
+  target 'FMDB使用Tests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'FMDB使用UITests' do
+    # Pods for testing
+  end
+
+end
