@@ -19,7 +19,7 @@
     [super viewDidLoad];
     __weak typeof(self) weakSelf = self;
     self.thread = [[LSThread alloc] initWithBlock:^{
-        NSLog(@"func -- %s   thread -- %@", __func__, [NSThread currentThread]);
+//        NSLog(@"func -- %s   thread -- %@", __func__, [NSThread currentThread]);
         [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
         while (!weakSelf.isStopThread) {
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];

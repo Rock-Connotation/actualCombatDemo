@@ -10,18 +10,39 @@
 @interface ViewController ()
 @property (nonatomic, assign) int ticketSurplusCount;
 @property (nonatomic, strong) dispatch_semaphore_t semaphoreLock;
+@property (nonatomic, assign) int number;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    dispatch_semaphore_signal(semaphore);
-    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-    NSLog(@"1");
+    [self printOddAndEvenNumber];
+//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(1);
+//    dispatch_semaphore_signal(semaphore);
+//    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//    NSLog(@"1");
 }
 
+///两条线程交替打印奇数偶数
+- (void)printOddAndEvenNumber{
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    for (int i = 0; i < 50; i++) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            self.number++;
+            printf("打印奇数---%d \n",self.number);
+            dispatch_semaphore_signal(semaphore);
+        });
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            self.number++;
+            printf("打印偶数---%d \n",self.number);
+            dispatch_semaphore_signal(semaphore);
+        });
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    }
+}
 
 - (void)semaphoreSync {
 
